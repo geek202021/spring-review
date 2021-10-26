@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--创建 MyDateConverter 对象-->
+<!--    <bean id="myDateConverter" class="com.jun.converter.MyDateConverter"/>-->
+    <bean id="myDateConverter" class="com.jun.converter.MyDateConverter">
+        <property name="pattern" value="yyyy-MM-dd"/>
+    </bean>
+    <!--用于注册类型转换器-->
+    <!--目的：告知Spring框架，我们所创建的MyDateConverter是一个类型转换器-->
+    <!--ConversionSeviceFactoryBean 定义 id属性，值必须是 conversionService-->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="myDateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="person2" class="com.jun.converter.Person2">
+        <property name="name" value="jun"/>
+        <property name="birthday" value="2021-10-26"/>
+    </bean>
+
+</beans>

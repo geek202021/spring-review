@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="person" class="com.jun.basic.Person">
+        <!--<property name="id">
+            <value>10</value>
+        </property>-->
+        <property name="id" value="10"/>
+
+        <property name="name">
+            <value>Jack</value>
+        </property>
+        <property name="emails">
+            <list>
+                <value>jun@163.com</value>
+                <value>suns@163.com</value>
+                <value>jack@163.com</value>
+            </list>
+        </property>
+        <property name="tels">
+            <set>
+                <value>1718111111</value>
+                <value>1517111111</value>
+                <value>1898111111</value>
+                <value>1898111111</value>
+            </set>
+        </property>
+        <property name="qqs">
+            <map>
+                <entry>
+                    <!--这样写是因为Map的key和value都是String类型的
+                        key有特定的标签，值根据对应类型选择对应类型的标签-->
+                    <key><value>hrj</value></key>
+                    <value>4423232323</value>
+                </entry>
+                <entry>
+                    <key><value>jun</value></key>
+                    <value>4534343323</value>
+                </entry>
+            </map>
+        </property>
+        <property name="p">
+            <props>
+                <prop key="key1">value1</prop>
+                <prop key="key2">value2</prop>
+            </props>
+        </property>
+    </bean>
+
+   <!-- <bean id="userService" class="UserServiceImpl">
+        <property name="userDAO">
+            <bean class="UserDAOImpl"/>
+        </property>
+    </bean>-->
+    <bean id="userDAO" class="com.jun.basic.UserDAOImpl"></bean>
+    <!--<bean id="userService" class="UserServiceImpl">
+        <property name="userDAO">
+            <ref bean="userDAO"/>
+        </property>
+    </bean>-->
+    <!--<bean id="userService" class="UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>-->
+    <bean id="userService" class="com.jun.basic.UserServiceImpl" p:userDAO-ref="userDAO"/>
+
+
+    <bean id="customer" class="com.jun.constructor.Customer">
+        <constructor-arg>
+            <value>jun</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>111</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="connect" class="com.jun.factorybean.ConnectionFactoryBean">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/book?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="hrj"/>
+    </bean>
+
+    <!-- 先创建出工厂实例 -->
+    <bean id="connectFactory" class="com.jun.factorybean.ConnectionFactory"></bean>
+    <!-- 通过工厂实例里的方法创建复杂对象 -->
+    <bean id="conn" factory-bean="connectFactory" factory-method="getConnection"/>
+
+    <!--静态工厂-->
+    <bean id="staticFactory" class="com.jun.factorybean.StaticConnectionFactory" factory-method="getConnection"/>
+
+    <!--Spring生命周期-->
+<!--    <bean id="product" class="com.jun.life.Product" scope="prototype"/>-->
+<!--    <bean id="product" class="com.jun.life.Product" scope="singleton" lazy-init="true"/>-->
+    <bean id="product" class="com.jun.life.Product" init-method="MyInit"/>
+</beans>
