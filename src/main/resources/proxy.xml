@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="userService" class="com.jun.proxy.UserServiceImpl"/>
     <!-- 额外功能 -->
-    <bean id="before" class="com.jun.dynamic.Before"/>
-
+<!--    <bean id="before" class="com.jun.dynamic.Before"/>-->
+    <bean id="around" class="com.jun.dynamic.Around"/>
+    <!--切入点:额外功能的加入-->
+    <!--目的：由程序员根据自己的需要，决定额外功能加入给哪个原始方法(register、login)-->
+    <!-- 简单的测试：所有方法都做为切入点，都加入额外的功能-->
+    <aop:config>
+<!--        <aop:pointcut id="pc" expression="execution(* *(..))"/>-->
+        <aop:pointcut id="pc" expression="execution(* login(..))"/>
+        <!--组装-->
+        <!--表达的含义: 所有的方法 都加入before的额外功能-->
+<!--        <aop:advisor advice-ref="before" pointcut-ref="pc"/>-->
+        <aop:advisor advice-ref="around" pointcut-ref="pc"/>
+    </aop:config>
 
 
 
