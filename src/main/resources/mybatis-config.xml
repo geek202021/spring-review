@@ -20,6 +20,6 @@
     </environments>
 
     <mappers>
-        <mapper resource="UserDAOMapper.xml"/>
+        <mapper resource="xxxMapper.xml"/>
     </mappers>
 </configuration>

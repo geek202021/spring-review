@@ -16,8 +16,10 @@ public class TestMyBatis {
     public static void main(String[] args) throws IOException {
         InputStream ins = Resources.getResourceAsStream("mybatis-config.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(ins);
+
         SqlSession session = sqlSessionFactory.openSession();
         UserDAO userDAO = session.getMapper(UserDAO.class);
+
         User user = new User();
         user.setName("jun");
         user.setPassword("1324");
